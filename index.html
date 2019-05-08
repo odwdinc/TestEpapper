@@ -132,13 +132,13 @@ function onOnOffButtonClick() {
 		view1.setInt8(0, 0); //
 	}else{
 
-	 	view1.setInt8(0,1); //
+	 	view1.setInt8(0, 1); //
 	}
 	myDescriptor.writeValue(view1)
 	.then(_ => {
 		onoff = !onoff;
 		console.log('> On/Off User Description changed to: ' + onoff);
-		if(value){
+		if(onoff){
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn  Off';
 		}else{
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn On';
@@ -154,17 +154,24 @@ function onOnOffRanbowButtonClick() {
 	if (!myDescriptor) {
 		return;
 	}
-	let encoder = new TextEncoder('utf-8');
-	let value = !onoffRanbow;
-	myDescriptor.writeValue(encoder.encode(value))
+	let buffer = new ArrayBuffer(1);
+	let view1 = new DataView(buffer);
+
+	if(onoffRanbow){
+		view1.setInt8(0, 0); //
+	}else{
+
+	 	view1.setInt8(0, 1); //
+	}
+	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> On/Off Rainbow User Description changed to: ' + value);
-		if(value){
+		onoffRanbow = !onoffRanbow;
+		console.log('> On/Off Rainbow User Description changed to: ' + onoffRanbow);
+		if(onoffRanbow){
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn Rainbow Off';
 		}else{
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn Rainbow On';
 		}
-		onoffRanbow = value;
 	})
 	.catch(error => {
 	console.log('Argh! ' + error);
@@ -200,7 +207,7 @@ function SetColorButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Event V9</h1>
+<h1>The BLE Event V10</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
