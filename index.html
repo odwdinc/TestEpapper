@@ -23,7 +23,7 @@ function myFunction() {
 	})
 	.then(server => {
 		console.log('Getting Service...');
-		return server.getPrimaryService(serviceUuid);
+		return server.getPrimaryService('19b10000-e8f2-537e-4f6c-d104768a1214');
 	})
 	.then(service => {
 		console.log('Getting Characteristics...');
