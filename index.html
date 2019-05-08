@@ -34,26 +34,16 @@ function myFunction() {
 		return service.getCharacteristics();
 	})
 	.then(characteristics => {
-		characteristics.forEach(function(element) {
+		characteristics.forEach(function(characteristic) {
 			console.log('> Characteristic: ');
-		  	console.log(element.uuid);
-		  	console.log('Getting Descriptor...');
-    		element.getDescriptor('gatt.characteristic_user_description').
-    		then(descriptor => {
-    			ElementList[element.uuid] = descriptor;
-    			document.querySelector('#Button_'+uuid).disabled = !descriptor.characteristic.properties.write;
-    			return descriptor.readValue();
-    		}).then(value => {
-    			let decoder = new TextDecoder('utf-8');
-    			console.log('> Characteristic User Description: ' + decoder.decode(value));
-    		}).catch(error => {
-				console.log('Characteristic Argh! ' + error);
-			});
+		  	console.log(characteristic.uuid);
+		  	document.querySelector('#Button_'+characteristic.uuid).disabled = !characteristic.properties.write;
+    		ElementList[characteristic.uuid] = characteristic;
 		});
 		return 0;
 	})
 	.then(val =>{
-
+		console.log(ElementList);
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
