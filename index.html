@@ -39,11 +39,39 @@ function myFunction() {
 		  	console.log(characteristic.uuid);
 		  	document.querySelector('#Button_'+characteristic.uuid).disabled = !characteristic.properties.write;
     		ElementList[characteristic.uuid] = characteristic;
+    		characteristic.readValue()
+    		.then(value => {
+    			switch(characteristic.uuid){
+    				case '19b10001-e8f2-537e-4f6c-d104768a1214':
+    					console.log('On/Off'+value);
+    					if(value){
+    						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Off';
+    					}else{
+    						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn On';
+    					}
+
+    					break;
+    				case '19b10003-e8f2-537e-4f6c-d104768a1214':
+    					console.log('Rainbow On/Off'+value);
+    					if(value){
+    						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Rainbow Off';
+    					}else{
+    						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Rainbow On';
+    					}
+    					break;
+    				case '19b10002-e8f2-537e-4f6c-d104768a1214':
+    					document.querySelector('#Brightness').value = value;
+    					break;
+    				case '19b10004-e8f2-537e-4f6c-d104768a1214':
+    					document.querySelector('#Color').value = value;
+    					break
+    			}		
+    		})
+    		.catch(error => {
+				document.querySelector('#Button_'+characteristic.uuid).disabled = true;
+				log('Characteristic Argh! ' + error);
+			});
 		});
-		return 0;
-	})
-	.then(val =>{
-		console.log(ElementList);
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
@@ -59,10 +87,16 @@ function myFunction() {
 <button onclick="myFunction()">Click me</button>
 
 <p id="demo"></p>
-
+</br>
 <button id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
+</br>
 <button id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
+<input id="Brightness" type="number" name="Brightness" min="1" max="31">
+</br>
 <button id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
+</br>
 <button id="Button_19b10004-e8f2-537e-4f6c-d104768a1214" disabled>Set Color</button>
+<input id="Color" type="color" name="favcolor" value="#ff0000">
+</br>
 </body>
 </html>
