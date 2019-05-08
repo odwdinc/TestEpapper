@@ -30,6 +30,23 @@ var fullColorHex = function(r,g,b) {
   return '#'+red+green+blue;
 };
 
+function convertColor(color) {
+  /* Check for # infront of the value, if it's there, strip it */
+
+  if(color.substring(0,1) == '#') {
+     color = color.substring(1);
+   }
+
+  var rgbColor = {};
+
+  /* Grab each pair (channel) of hex values and parse them to ints using hexadecimal decoding */
+  rgbColor.rChannel = parseInt(color.substring(0,2),16);
+  rgbColor.gChannel = parseInt(color.substring(2,4),16);
+  rgbColor.bChannel = parseInt(color.substring(4),16);
+
+  return rgbColor;
+ }
+
 function myFunction() {
   	console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
@@ -155,13 +172,16 @@ function SetColorButtonClick() {
 	}
 	let buffer = new ArrayBuffer(3);
 	let view1 = new DataView(buffer);
-	view1.setInt8(0, 120); //
-	view1.setInt8(1, 166); //
-	view1.setInt8(2, 252); //
+
+	let rgblol =  convertColor(document.querySelector('#Color').value)
+
+	view1.setInt8(0, rgblol.rChannel ); //
+	view1.setInt8(1, rgblol.gChannel ); //
+	view1.setInt8(2, rgblol.bChannel ); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> SetColor ');
+		console.log('> SetColor R:'+rgblol.rChannel+' G:'+rgblol.gChannel+' B:'+rgblol.bChannel+);
 
 	})
 	.catch(error => {
