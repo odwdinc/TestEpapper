@@ -136,13 +136,13 @@ function onOnOffButtonClick() {
 	}
 	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> On/Off User Description changed to: ' + value);
+		onoff = !onoff;
+		console.log('> On/Off User Description changed to: ' + onoff);
 		if(value){
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn  Off';
 		}else{
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn On';
 		}
-		onoff = value;
 	})
 	.catch(error => {
 	console.log('Argh! ' + error);
@@ -200,7 +200,7 @@ function SetColorButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Event V8</h1>
+<h1>The BLE Event V9</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
