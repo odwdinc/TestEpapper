@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 
-<script>
+<head>
+
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.slim.js"
+  integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+  crossorigin="anonymous"></script>
+
+<script language="JavaScript" type="text/javascript">
 function myFunction() {
   	console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
@@ -35,7 +43,7 @@ function myFunction() {
 	});
 }
 </script>
-
+</head>
 <body>
 
 <h1>The BLE Event</h1>
