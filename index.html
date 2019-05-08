@@ -11,22 +11,22 @@
 
 <script>
 function myFunction() {
-  	log('Requesting Bluetooth Device...');
+  	console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
   		filters: [{
     		services: ['19b10000-e8f2-537e-4f6c-d104768a1214']
   		}]
 	})
 	.then(device => {
-    log('Connecting to GATT Server...');
-    return device.gatt.connect();
+    	console.log('Connecting to GATT Server...');
+    	console.return device.gatt.connect();
 	})
 	.then(server => {
-		log('Getting Service...');
+		console.log('Getting Service...');
 		return server.getPrimaryService(serviceUuid);
 	})
 	.then(service => {
-	log('Getting Characteristics...');
+		console.log('Getting Characteristics...');
 		if (characteristicUuid) {
 		  // Get all characteristics that match this UUID.
 		  return service.getCharacteristics(characteristicUuid);
@@ -35,11 +35,11 @@ function myFunction() {
 		return service.getCharacteristics();
 	})
 	.then(characteristics => {
-		log('> Characteristics: ' +
+		console.log('> Characteristics: ' +
 	  		characteristics.map(c => c.uuid).join('\n' + ' '.repeat(19)));
 	})
 	.catch(error => {
-		log('Argh! ' + error);
+		console.log('Argh! ' + error);
 	});
 }
 </script>
