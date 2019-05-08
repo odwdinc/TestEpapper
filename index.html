@@ -13,6 +13,21 @@
 
 var ElementList ={}
 
+var rgbToHex = function (rgb) { 
+  var hex = Number(rgb).toString(16);
+  if (hex.length < 2) {
+       hex = "0" + hex;
+  }
+  return hex;
+};
+
+var fullColorHex = function(r,g,b) {   
+  var red = rgbToHex(r);
+  var green = rgbToHex(g);
+  var blue = rgbToHex(b);
+  return red+green+blue;
+};
+
 function myFunction() {
   	console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
@@ -62,14 +77,14 @@ function myFunction() {
     					break;
     				case '19b10002-e8f2-537e-4f6c-d104768a1214':
     					console.log('Brightness: '+curentVal);
-    					//document.querySelector('#Brightness').prop('value', curentVal);
+    					document.querySelector('#Brightness').value = curentVal;
     					break;
     				case '19b10004-e8f2-537e-4f6c-d104768a1214':
     					let Red = value.getUint8(0);
     					let Green = value.getUint8(1);
     					let Blue = value.getUint8(2);
-    					console.log('Color: '+Red+','+Green+','+Blue);
-    					//document.querySelector('#Color').value = value;
+    					console.log('Color: '+Red+','+Green+','+Blue+','+fullColorHex(Red,Green,Blue));
+    					document.querySelector('#Color').value = fullColorHex(Red,Green,Blue);
     					break
     			}		
     		})
