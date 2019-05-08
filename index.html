@@ -10,6 +10,9 @@
   crossorigin="anonymous"></script>
 
 <script language="JavaScript" type="text/javascript">
+
+var ElementList ={}
+
 function myFunction() {
   	console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
@@ -33,8 +36,11 @@ function myFunction() {
 	.then(characteristics => {
 		characteristics.forEach(function(element) {
 			console.log('> Characteristic: '
-		  	console.log(element);
+		  	console.log(element.uuid);
 		  	console.log('\n'); 
+
+		  	log('Getting Descriptor...');
+    		ElementList[element.uuid] = await element.getDescriptor('gatt.characteristic_user_description');
 		});
 	})
 	.catch(error => {
