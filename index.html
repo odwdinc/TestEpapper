@@ -109,7 +109,7 @@ function onWriteButtonClick() {
 	let value = !onoff;
 	myDescriptor.writeValue(encoder.encode(value))
 	.then(_ => {
-		log('> On/Off User Description changed to: ' + value);
+		console.log('> On/Off User Description changed to: ' + value);
 		if(value){
 			document.querySelector('#Button_'+characteristic.uuid).innerText ='Turn Off';
 		}else{
@@ -126,7 +126,7 @@ function onWriteButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Event V2</h1>
+<h1>The BLE Event V3</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
