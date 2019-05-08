@@ -211,11 +211,11 @@ function SetBrightnessButtonClick() {
 	let buffer = new ArrayBuffer(1);
 	let view1 = new DataView(buffer);
 
-	view1.setInt8(0, document.querySelector('#Color').valuel ); //
+	view1.setInt8(0, document.querySelector('#Brightness').valuel ); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> Brightness :'+ document.querySelector('#Color').valuel );
+		console.log('> Brightness :'+ document.querySelector('#Brightness').valuel );
 
 	})
 	.catch(error => {
@@ -226,7 +226,7 @@ function SetBrightnessButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Event V11</h1>
+<h1>The BLE Event V12</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
