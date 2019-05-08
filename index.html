@@ -211,7 +211,7 @@ function SetBrightnessButtonClick() {
 	let buffer = new ArrayBuffer(1);
 	let view1 = new DataView(buffer);
 
-	view1.getUint8(0, document.querySelector('#Brightness').value ); //
+	view1.getUint8(0, parseInt(document.querySelector('#Brightness').value)); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
