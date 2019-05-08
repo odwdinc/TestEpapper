@@ -189,9 +189,9 @@ function SetColorButtonClick() {
 
 	let rgblol =  convertColor(document.querySelector('#Color').value)
 
-	view1.setInt8(0, rgblol.rChannel ); //
-	view1.setInt8(1, rgblol.gChannel ); //
-	view1.setInt8(2, rgblol.bChannel ); //
+	view1.getUint8(0, rgblol.rChannel ); //
+	view1.getUint8(1, rgblol.gChannel ); //
+	view1.getUint8(2, rgblol.bChannel ); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
@@ -211,7 +211,7 @@ function SetBrightnessButtonClick() {
 	let buffer = new ArrayBuffer(1);
 	let view1 = new DataView(buffer);
 
-	view1.setInt8(0, document.querySelector('#Brightness').value ); //
+	view1.getUint8(0, document.querySelector('#Brightness').value ); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
