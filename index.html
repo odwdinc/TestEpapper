@@ -129,7 +129,7 @@ function myFunction() {
     		})
     		.catch(error => {
 				document.querySelector('#Button_'+characteristic.uuid).disabled = true;
-				console.log('Characteristic Argh! ' + error);\
+				console.log('Characteristic Argh! ' + error);
 				DisableList(error);
 			});
 		});
@@ -253,7 +253,7 @@ function SetBrightnessButtonClick() {
 <h1>The BLE Light Stip</h1>
  
 
-<button id="Connect" onclick="myFunction()">Connect to Lights 1</button>
+<button id="Connect" onclick="myFunction()">Connect to Lights</button>
 
 <p id="demo"></p>
 </br>
