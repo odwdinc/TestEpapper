@@ -13,6 +13,8 @@
 
 var ElementList ={}
 var onoff = false;
+var onoffRanbow = false;
+
 var rgbToHex = function (rgb) { 
   var hex = Number(rgb).toString(16);
   if (hex.length < 2) {
@@ -56,7 +58,7 @@ function myFunction() {
     		ElementList[characteristic.uuid] = characteristic;
     		characteristic.readValue()
     		.then(value => {
-    			let curentVal = value.getUint8(0);
+    			let curentVal = value.getInt8(0);
     			switch(characteristic.uuid){
     				case '19b10001-e8f2-537e-4f6c-d104768a1214':
     					console.log('On/Off: '+curentVal);
@@ -72,6 +74,7 @@ function myFunction() {
     					console.log('Rainbow On/Off: '+curentVal);
     					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn Rainbow Off';
+    						onoffRanbow = true;
     					}else{
     						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn Rainbow On';
     					}
@@ -100,7 +103,7 @@ function myFunction() {
 	});
 }
 
-function onWriteButtonClick() {
+function onOnOffButtonClick() {
 	let myDescriptor = ElementList['19b10001-e8f2-537e-4f6c-d104768a1214']
 	if (!myDescriptor) {
 		return;
@@ -111,11 +114,33 @@ function onWriteButtonClick() {
 	.then(_ => {
 		console.log('> On/Off User Description changed to: ' + value);
 		if(value){
-			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn Off';
+			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn  Off';
 		}else{
-			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn On';
+			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn Rainbow On';
 		}
 		onoff = value;
+	})
+	.catch(error => {
+	console.log('Argh! ' + error);
+	});
+}
+
+function onOnOffRanbowButtonClick() {
+	let myDescriptor = ElementList['19b10003-e8f2-537e-4f6c-d104768a1214']
+	if (!myDescriptor) {
+		return;
+	}
+	let encoder = new TextEncoder('utf-8');
+	let value = !onoffRanbow;
+	myDescriptor.writeValue(encoder.encode(value))
+	.then(_ => {
+		console.log('> On/Off Rainbow User Description changed to: ' + value);
+		if(value){
+			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn Rainbow Off';
+		}else{
+			document.querySelector('#Button_'+myDescriptor.uuid).innerText = 'Turn Rainbow On';
+		}
+		onoffRanbow = value;
 	})
 	.catch(error => {
 	console.log('Argh! ' + error);
@@ -133,12 +158,12 @@ function onWriteButtonClick() {
 
 <p id="demo"></p>
 </br>
-<button onclick="onWriteButtonClick()" id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
+<button onclick="onOnOffButtonClick()" id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
 </br>
 <button id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
 <input id="Brightness" type="number" name="Brightness" min="1" max="31">
 </br>
-<button id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
+<button onclick="onOnOffRanbowButtonClick()" id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
 </br>
 <button id="Button_19b10004-e8f2-537e-4f6c-d104768a1214" disabled>Set Color</button>
 <input id="Color" type="color" name="favcolor" value="#ff0000">
