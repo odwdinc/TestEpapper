@@ -19,7 +19,7 @@ function myFunction() {
 	})
 	.then(device => {
     	console.log('Connecting to GATT Server...');
-    	console.return device.gatt.connect();
+    	return device.gatt.connect();
 	})
 	.then(server => {
 		console.log('Getting Service...');
