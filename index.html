@@ -37,11 +37,23 @@ function myFunction() {
 		characteristics.forEach(function(element) {
 			console.log('> Characteristic: ');
 		  	console.log(element.uuid);
-		  	console.log('\n'); 
-
 		  	console.log('Getting Descriptor...');
-    		ElementList[element.uuid] = element.getDescriptor('gatt.characteristic_user_description');
+    		element.getDescriptor('gatt.characteristic_user_description').
+    		then(descriptor => {
+    			ElementList[element.uuid] = descriptor;
+    			document.querySelector('#Button_'+uuid).disabled = !descriptor.characteristic.properties.write;
+    			return descriptor.readValue();
+    		}).then(value => {
+    			let decoder = new TextDecoder('utf-8');
+    			console.log('> Characteristic User Description: ' + decoder.decode(value));
+    		}).catch(error => {
+				console.log('Characteristic Argh! ' + error);
+			});
 		});
+		return 0;
+	})
+	.then(val =>{
+
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
@@ -58,7 +70,9 @@ function myFunction() {
 
 <p id="demo"></p>
 
-
-
+<button id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
+<button id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
+<button id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
+<button id="Button_19b10004-e8f2-537e-4f6c-d104768a1214" disabled>Set Color</button>
 </body>
 </html>
