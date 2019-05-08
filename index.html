@@ -203,11 +203,30 @@ function SetColorButtonClick() {
 	});
 }
 
+function SetBrightnessButtonClick() {
+	let myDescriptor = ElementList['19b10002-e8f2-537e-4f6c-d104768a1214']
+	if (!myDescriptor) {
+		return;
+	}
+	let buffer = new ArrayBuffer(1);
+	let view1 = new DataView(buffer);
+
+	view1.setInt8(0, document.querySelector('#Color').valuel ); //
+
+	myDescriptor.writeValue(view1)
+	.then(_ => {
+		console.log('> Brightness :'+ document.querySelector('#Color').valuel );
+
+	})
+	.catch(error => {
+	console.log('Argh! ' + error);
+	});
+}
 </script>
 </head>
 <body>
 
-<h1>The BLE Event V10</h1>
+<h1>The BLE Event V11</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
@@ -216,7 +235,7 @@ function SetColorButtonClick() {
 </br>
 <button onclick="onOnOffButtonClick()" id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
 </br>
-<button id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
+<button onclick="SetBrightnessButtonClick()" id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
 <input id="Brightness" type="number" name="Brightness" min="1" max="31">
 </br>
 <button onclick="onOnOffRanbowButtonClick()" id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
