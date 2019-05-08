@@ -31,8 +31,11 @@ function myFunction() {
 		return service.getCharacteristics();
 	})
 	.then(characteristics => {
-		console.log('> Characteristics: ' +
-	  		characteristics.map(c => c.uuid).join('\n' + ' '.repeat(19)));
+		characteristics.forEach(function(element) {
+			console.log('> Characteristic: '
+		  	console.log(element);
+		  	console.log('\n'); 
+		});
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
