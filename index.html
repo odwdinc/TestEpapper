@@ -125,9 +125,16 @@ function onOnOffButtonClick() {
 	if (!myDescriptor) {
 		return;
 	}
-	let encoder = new TextEncoder('utf-8');
-	let value = !onoff;
-	myDescriptor.writeValue(encoder.encode(value))
+	let buffer = new ArrayBuffer(1);
+	let view1 = new DataView(buffer);
+
+	if(onoff){
+		view1.setInt8(0, 0); //
+	}else{
+
+	 	view1.setInt8(0,1); //
+	}
+	myDescriptor.writeValue(view1)
 	.then(_ => {
 		console.log('> On/Off User Description changed to: ' + value);
 		if(value){
@@ -193,7 +200,7 @@ function SetColorButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Event V7</h1>
+<h1>The BLE Event V8</h1>
 
 
 <button onclick="myFunction()">Connect to Lights</button>
