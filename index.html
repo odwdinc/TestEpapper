@@ -189,9 +189,9 @@ function SetColorButtonClick() {
 
 	let rgblol =  convertColor(document.querySelector('#Color').value)
 
-	view1.getUint8(0, rgblol.rChannel ); //
-	view1.getUint8(1, rgblol.gChannel ); //
-	view1.getUint8(2, rgblol.bChannel ); //
+	view1.setUint8(0, rgblol.rChannel ); //
+	view1.setUint8(1, rgblol.gChannel ); //
+	view1.setUint8(2, rgblol.bChannel ); //
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
@@ -226,7 +226,7 @@ function SetBrightnessButtonClick() {
 </head>
 <body>
 
-<h1>The BLE Light Stip v1</h1>
+<h1>The BLE Light Stip v2</h1>
  
 
 <button onclick="myFunction()">Connect to Lights</button>
