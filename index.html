@@ -110,6 +110,12 @@ function onWriteButtonClick() {
 	myDescriptor.writeValue(encoder.encode(value))
 	.then(_ => {
 		log('> On/Off User Description changed to: ' + value);
+		if(value){
+			document.querySelector('#Button_'+characteristic.uuid).innerText ='Turn Off';
+			onoff = true;
+		}else{
+			document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn On';
+		}
 	})
 	.catch(error => {
 	log('Argh! ' + error);
