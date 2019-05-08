@@ -46,23 +46,23 @@ function myFunction() {
     				case '19b10001-e8f2-537e-4f6c-d104768a1214':
     					console.log('On/Off: '+curentVal);
     					if(curentVal){
-    						document.querySelector('#Button_'+characteristic.uuid).text('Turn Off');
+    						document.querySelector('#Button_'+characteristic.uuid).innerText ='Turn Off';
     					}else{
-    						document.querySelector('#Button_'+characteristic.uuid).text('Turn On');
+    						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn On';
     					}
 
     					break;
     				case '19b10003-e8f2-537e-4f6c-d104768a1214':
     					console.log('Rainbow On/Off: '+curentVal);
     					if(curentVal){
-    						document.querySelector('#Button_'+characteristic.uuid).text('Turn Rainbow Off');
+    						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn Rainbow Off';
     					}else{
-    						document.querySelector('#Button_'+characteristic.uuid).text('Turn Rainbow On');
+    						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn Rainbow On';
     					}
     					break;
     				case '19b10002-e8f2-537e-4f6c-d104768a1214':
     					console.log('Brightness: '+curentVal);
-    					document.querySelector('#Brightness').prop('value', curentVal);
+    					//document.querySelector('#Brightness').prop('value', curentVal);
     					break;
     				case '19b10004-e8f2-537e-4f6c-d104768a1214':
     					let Red = value.getUint8(0);
