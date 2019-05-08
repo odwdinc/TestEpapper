@@ -75,7 +75,7 @@ function myFunction() {
     		})
     		.catch(error => {
 				document.querySelector('#Button_'+characteristic.uuid).disabled = true;
-				log('Characteristic Argh! ' + error);
+				console.log('Characteristic Argh! ' + error);
 			});
 		});
 	})
