@@ -41,10 +41,11 @@ function myFunction() {
     		ElementList[characteristic.uuid] = characteristic;
     		characteristic.readValue()
     		.then(value => {
+    			let curentVal = value.getUint8(0);
     			switch(characteristic.uuid){
     				case '19b10001-e8f2-537e-4f6c-d104768a1214':
-    					console.log('On/Off: '+value);
-    					if(value){
+    					console.log('On/Off: '+curentVal);
+    					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Off';
     					}else{
     						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn On';
@@ -52,19 +53,22 @@ function myFunction() {
 
     					break;
     				case '19b10003-e8f2-537e-4f6c-d104768a1214':
-    					console.log('Rainbow On/Off: '+value);
-    					if(value){
+    					console.log('Rainbow On/Off: '+curentVal);
+    					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Rainbow Off';
     					}else{
     						document.querySelector('#Button_'+characteristic.uuid).value = 'Turn Rainbow On';
     					}
     					break;
     				case '19b10002-e8f2-537e-4f6c-d104768a1214':
-    					console.log('Brightness: '+value);
+    					console.log('Brightness: '+curentVal);
     					//document.querySelector('#Brightness').value = value;
     					break;
     				case '19b10004-e8f2-537e-4f6c-d104768a1214':
-    					console.log('Color: '+value);
+    					let Red = value.getUint8(0);
+    					let Green = value.getUint8(1);
+    					let Blue = value.getUint8(2);
+    					console.log('Color: '+Red+','+Green+','+Blue);
     					//document.querySelector('#Color').value = value;
     					break
     			}		
