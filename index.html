@@ -147,6 +147,28 @@ function onOnOffRanbowButtonClick() {
 	});
 }
 
+
+function SetColorButtonClick() {
+	let myDescriptor = ElementList['19b10004-e8f2-537e-4f6c-d104768a1214']
+	if (!myDescriptor) {
+		return;
+	}
+	let buffer = new ArrayBuffer(3);
+	let view1 = new DataView(buffer);
+	view1.setInt8(0, 120); //
+	view1.setInt8(1, 166); //
+	view1.setInt8(2, 252); //
+
+	myDescriptor.writeValue(view1)
+	.then(_ => {
+		console.log('> SetColor ');
+
+	})
+	.catch(error => {
+	console.log('Argh! ' + error);
+	});
+}
+
 </script>
 </head>
 <body>
@@ -165,7 +187,7 @@ function onOnOffRanbowButtonClick() {
 </br>
 <button onclick="onOnOffRanbowButtonClick()" id="Button_19b10003-e8f2-537e-4f6c-d104768a1214" disabled>Rainbow On/Off</button>
 </br>
-<button id="Button_19b10004-e8f2-537e-4f6c-d104768a1214" disabled>Set Color</button>
+<button  onclick="SetColorButtonClick()" id="Button_19b10004-e8f2-537e-4f6c-d104768a1214" disabled>Set Color</button>
 <input id="Color" type="color" name="favcolor" value="#ff0000">
 </br>
 </body>
