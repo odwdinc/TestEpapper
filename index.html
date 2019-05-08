@@ -12,7 +12,7 @@
 <script language="JavaScript" type="text/javascript">
 
 var ElementList ={}
-
+var onoff = false;
 var rgbToHex = function (rgb) { 
   var hex = Number(rgb).toString(16);
   if (hex.length < 2) {
@@ -62,6 +62,7 @@ function myFunction() {
     					console.log('On/Off: '+curentVal);
     					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).innerText ='Turn Off';
+    						onoff = true;
     					}else{
     						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn On';
     					}
@@ -98,6 +99,23 @@ function myFunction() {
 		console.log('Argh! ' + error);
 	});
 }
+
+function onWriteButtonClick() {
+	let myDescriptor = ElementList[characteristic.uuid]
+	if (!myDescriptor) {
+		return;
+	}
+	let encoder = new TextEncoder('utf-8');
+	let value = !onoff;
+	myDescriptor.writeValue(encoder.encode(value))
+	.then(_ => {
+		log('> On/Off User Description changed to: ' + value);
+	})
+	.catch(error => {
+	log('Argh! ' + error);
+	});
+}
+
 </script>
 </head>
 <body>
@@ -109,7 +127,7 @@ function myFunction() {
 
 <p id="demo"></p>
 </br>
-<button id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
+<button onclick="onWriteButtonClick()" id="Button_19b10001-e8f2-537e-4f6c-d104768a1214" disabled>On/Off</button>
 </br>
 <button id="Button_19b10002-e8f2-537e-4f6c-d104768a1214" disabled>Brightness</button>
 <input id="Brightness" type="number" name="Brightness" min="1" max="31">
