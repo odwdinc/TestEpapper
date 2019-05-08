@@ -40,7 +40,7 @@ function myFunction() {
 		  	console.log('\n'); 
 
 		  	log('Getting Descriptor...');
-    		ElementList[element.uuid] = await element.getDescriptor('gatt.characteristic_user_description');
+    		ElementList[element.uuid] = element.getDescriptor('gatt.characteristic_user_description');
 		});
 	})
 	.catch(error => {
