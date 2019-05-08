@@ -30,6 +30,20 @@ var fullColorHex = function(r,g,b) {
   return '#'+red+green+blue;
 };
 
+
+function DisableList(error){
+	document.querySelector('#demo').innerText = error;
+	document.querySelector('#Connect').disabled = false;
+	document.querySelector('#Button_19b10001-e8f2-537e-4f6c-d104768a1214').disabled = true;
+	document.querySelector('#Button_19b10002-e8f2-537e-4f6c-d104768a1214').disabled = true;
+	document.querySelector('#Brightness').disabled = true;
+	document.querySelector('#Button_19b10003-e8f2-537e-4f6c-d104768a1214').disabled = true;
+	document.querySelector('#Button_19b10004-e8f2-537e-4f6c-d104768a1214').disabled = true;
+	document.querySelector('#Color').disabled = true;
+
+
+}
+
 function convertColor(color) {
   /* Check for # infront of the value, if it's there, strip it */
 
@@ -48,29 +62,30 @@ function convertColor(color) {
  }
 
 function myFunction() {
-  	console.log('Requesting Bluetooth Device...');
+  	//console.log('Requesting Bluetooth Device...');
 	navigator.bluetooth.requestDevice({
   		filters: [{
     		services: ['19b10000-e8f2-537e-4f6c-d104768a1214']
   		}]
 	})
 	.then(device => {
-    	console.log('Connecting to GATT Server...');
+    	//console.log('Connecting to GATT Server...');
     	return device.gatt.connect();
 	})
 	.then(server => {
-		console.log('Getting Service...');
+		//console.log('Getting Service...');
 		return server.getPrimaryService('19b10000-e8f2-537e-4f6c-d104768a1214');
 	})
 	.then(service => {
-		console.log('Getting Characteristics...');
+		//console.log('Getting Characteristics...');
 		// Get all characteristics.
+		document.querySelector('#Connect').disabled = true;
 		return service.getCharacteristics();
 	})
 	.then(characteristics => {
 		characteristics.forEach(function(characteristic) {
-			console.log('> Characteristic: ');
-		  	console.log(characteristic.uuid);
+			//console.log('> Characteristic: ');
+		  	//console.log(characteristic.uuid);
 		  	document.querySelector('#Button_'+characteristic.uuid).disabled = !characteristic.properties.write;
     		ElementList[characteristic.uuid] = characteristic;
     		characteristic.readValue()
@@ -78,7 +93,7 @@ function myFunction() {
     			let curentVal = value.getInt8(0);
     			switch(characteristic.uuid){
     				case '19b10001-e8f2-537e-4f6c-d104768a1214':
-    					console.log('On/Off: '+curentVal);
+    					//console.log('On/Off: '+curentVal);
     					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).innerText ='Turn Off';
     						onoff = true;
@@ -88,7 +103,7 @@ function myFunction() {
 
     					break;
     				case '19b10003-e8f2-537e-4f6c-d104768a1214':
-    					console.log('Rainbow On/Off: '+curentVal);
+    					//console.log('Rainbow On/Off: '+curentVal);
     					if(curentVal){
     						document.querySelector('#Button_'+characteristic.uuid).innerText = 'Turn Rainbow Off';
     						onoffRanbow = true;
@@ -97,26 +112,31 @@ function myFunction() {
     					}
     					break;
     				case '19b10002-e8f2-537e-4f6c-d104768a1214':
-    					console.log('Brightness: '+curentVal);
+    					//console.log('Brightness: '+curentVal);
     					document.querySelector('#Brightness').value = curentVal;
+    					document.querySelector('#Brightness').disabled = !characteristic.properties.write;
     					break;
     				case '19b10004-e8f2-537e-4f6c-d104768a1214':
     					let Red = value.getUint8(0);
     					let Green = value.getUint8(1);
     					let Blue = value.getUint8(2);
-    					console.log('Color: '+Red+','+Green+','+Blue+','+fullColorHex(Red,Green,Blue));
+    					//console.log('Color: '+Red+','+Green+','+Blue+','+fullColorHex(Red,Green,Blue));
     					document.querySelector('#Color').value = fullColorHex(Red,Green,Blue);
+    					document.querySelector('#Color').disabled = !characteristic.properties.write;
     					break
-    			}		
+    			}	
+    			document.querySelector('#demo').innerText='Connected To Leds';
     		})
     		.catch(error => {
 				document.querySelector('#Button_'+characteristic.uuid).disabled = true;
-				console.log('Characteristic Argh! ' + error);
+				console.log('Characteristic Argh! ' + error);\
+				DisableList(error);
 			});
 		});
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
+		DisableList(error);
 	});
 }
 
@@ -137,7 +157,7 @@ function onOnOffButtonClick() {
 	myDescriptor.writeValue(view1)
 	.then(_ => {
 		onoff = !onoff;
-		console.log('> On/Off User Description changed to: ' + onoff);
+		//console.log('> On/Off User Description changed to: ' + onoff);
 		if(onoff){
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn  Off';
 		}else{
@@ -145,7 +165,8 @@ function onOnOffButtonClick() {
 		}
 	})
 	.catch(error => {
-	console.log('Argh! ' + error);
+		console.log('Argh! ' + error);
+		DisableList(error);
 	});
 }
 
@@ -166,7 +187,7 @@ function onOnOffRanbowButtonClick() {
 	myDescriptor.writeValue(view1)
 	.then(_ => {
 		onoffRanbow = !onoffRanbow;
-		console.log('> On/Off Rainbow User Description changed to: ' + onoffRanbow);
+		//console.log('> On/Off Rainbow User Description changed to: ' + onoffRanbow);
 		if(onoffRanbow){
 			document.querySelector('#Button_'+myDescriptor.uuid).innerText ='Turn Rainbow Off';
 		}else{
@@ -174,7 +195,8 @@ function onOnOffRanbowButtonClick() {
 		}
 	})
 	.catch(error => {
-	console.log('Argh! ' + error);
+		console.log('Argh! ' + error);
+		DisableList(error);
 	});
 }
 
@@ -195,11 +217,12 @@ function SetColorButtonClick() {
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> SetColor R:'+rgblol.rChannel+' G:'+rgblol.gChannel+' B:'+rgblol.bChannel);
+		//console.log('> SetColor R:'+rgblol.rChannel+' G:'+rgblol.gChannel+' B:'+rgblol.bChannel);
 
 	})
 	.catch(error => {
-	console.log('Argh! ' + error);
+		console.log('Argh! ' + error);
+		DisableList(error);
 	});
 }
 
@@ -215,11 +238,12 @@ function SetBrightnessButtonClick() {
 
 	myDescriptor.writeValue(view1)
 	.then(_ => {
-		console.log('> Brightness :'+ document.querySelector('#Brightness').value );
+		//console.log('> Brightness :'+ document.querySelector('#Brightness').value );
 
 	})
 	.catch(error => {
-	console.log('Argh! ' + error);
+		console.log('Argh! ' + error);
+		DisableList(error);
 	});
 }
 </script>
@@ -229,7 +253,7 @@ function SetBrightnessButtonClick() {
 <h1>The BLE Light Stip</h1>
  
 
-<button onclick="myFunction()">Connect to Lights</button>
+<button id="Connect" onclick="myFunction()">Connect to Lights 1</button>
 
 <p id="demo"></p>
 </br>
