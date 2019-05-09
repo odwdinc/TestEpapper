@@ -125,7 +125,7 @@ function myFunction() {
     					document.querySelector('#Color').disabled = !characteristic.properties.write;
     					break
     			}	
-    			document.querySelector('#demo').innerText='Connected To Leds';
+    			
     		})
     		.catch(error => {
 				document.querySelector('#Button_'+characteristic.uuid).disabled = true;
@@ -133,6 +133,9 @@ function myFunction() {
 				DisableList(error);
 			});
 		});
+	})
+	.then(_=>{
+		document.querySelector('#demo').innerText='Connected To Leds';
 	})
 	.catch(error => {
 		console.log('Argh! ' + error);
